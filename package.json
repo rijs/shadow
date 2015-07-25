@@ -9,7 +9,7 @@
     "bundle": "browserify dist/index.js -o dist/client.js",
     "clean": "rm -rf dist && mkdir dist",
     "minify": "uglifyjs dist/client.js -m -c drop_console,dead_code -d debug=false -o dist/client.min.js",
-    "build": "npm run babel && npm run ignore && npm run bundle && npm run minify",
+    "build": "npm run clean && npm run babel && npm run ignore && npm run bundle && npm run minify",
     "test": "popper"
   },
   "license": "pemrouz.mit-license.org",
