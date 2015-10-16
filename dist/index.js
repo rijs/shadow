@@ -18,7 +18,7 @@ function shadow(ripple) {
   ripple.render = function (el) {
     el.createShadowRoot ? !el.shadowRoot && el.createShadowRoot() && reflect(el) : (el.shadowRoot = el, el.shadowRoot.host = el);
 
-    render(el);
+    return render(el);
   };
 
   return ripple;

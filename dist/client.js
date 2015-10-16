@@ -19,7 +19,7 @@ function shadow(ripple) {
   ripple.render = function (el) {
     el.createShadowRoot ? !el.shadowRoot && el.createShadowRoot() && reflect(el) : (el.shadowRoot = el, el.shadowRoot.host = el);
 
-    render(el);
+    return render(el);
   };
 
   return ripple;
@@ -37,17 +37,11 @@ var err = _interopRequire(require("utilise/err"));
 
 log = log("[ri/shadow]");
 err = err("[ri/shadow]");
-},{"utilise/client":2,"utilise/err":3,"utilise/log":4}],2:[function(require,module,exports){
-module.exports = require('client')
-},{"client":5}],3:[function(require,module,exports){
-module.exports = require('err')
-},{"err":6}],4:[function(require,module,exports){
-module.exports = require('log')
-},{"log":10}],5:[function(require,module,exports){
+},{"utilise/client":2,"utilise/err":3,"utilise/log":5}],2:[function(require,module,exports){
 module.exports = typeof window != 'undefined'
-},{}],6:[function(require,module,exports){
-var owner = require('owner')
-  , to = require('to')
+},{}],3:[function(require,module,exports){
+var owner = require('utilise/owner')
+  , to = require('utilise/to')
 
 module.exports = function err(prefix){
   return function(d){
@@ -57,35 +51,7 @@ module.exports = function err(prefix){
     return console.error.apply(console, args), d
   }
 }
-},{"owner":7,"to":9}],7:[function(require,module,exports){
-(function (global){
-module.exports = require('client') ? /* istanbul ignore next */ window : global
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"client":8}],8:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],9:[function(require,module,exports){
-module.exports = { 
-  arr : toArray
-}
-
-function toArray(d){
-  return Array.prototype.slice.call(d, 0)
-}
-},{}],10:[function(require,module,exports){
-var is = require('is')
-  , to = require('to')
-  , owner = require('owner')
-
-module.exports = function log(prefix){
-  return function(d){
-    if (!owner.console || !console.log.apply) return d;
-    is.arr(arguments[2]) && (arguments[2] = arguments[2].length)
-    var args = to.arr(arguments)
-    args.unshift(prefix.grey ? prefix.grey : prefix)
-    return console.log.apply(console, args), d
-  }
-}
-},{"is":11,"owner":12,"to":14}],11:[function(require,module,exports){
+},{"utilise/owner":6,"utilise/to":7}],4:[function(require,module,exports){
 module.exports = is
 is.fn     = isFunction
 is.str    = isString
@@ -153,15 +119,51 @@ function isDef(d) {
 
 function isIn(set) {
   return function(d){
-    return  set.indexOf 
-         ? ~set.indexOf(d)
-         :  d in set
+    return !set ? false  
+         : set.indexOf ? ~set.indexOf(d)
+         : d in set
   }
 }
-},{}],12:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"client":13,"dup":7}],13:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],14:[function(require,module,exports){
-arguments[4][9][0].apply(exports,arguments)
-},{"dup":9}]},{},[1]);
+},{}],5:[function(require,module,exports){
+var is = require('utilise/is')
+  , to = require('utilise/to')
+  , owner = require('utilise/owner')
+
+module.exports = function log(prefix){
+  return function(d){
+    if (!owner.console || !console.log.apply) return d;
+    is.arr(arguments[2]) && (arguments[2] = arguments[2].length)
+    var args = to.arr(arguments)
+    args.unshift(prefix.grey ? prefix.grey : prefix)
+    return console.log.apply(console, args), d
+  }
+}
+},{"utilise/is":4,"utilise/owner":6,"utilise/to":7}],6:[function(require,module,exports){
+(function (global){
+module.exports = require('utilise/client') ? /* istanbul ignore next */ window : global
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"utilise/client":2}],7:[function(require,module,exports){
+module.exports = { 
+  arr: toArray
+, obj: toObject
+}
+
+function toArray(d){
+  return Array.prototype.slice.call(d, 0)
+}
+
+function toObject(d) {
+  var by = 'id'
+    , o = {}
+
+  return arguments.length == 1 
+    ? (by = d, reduce)
+    : reduce.apply(this, arguments)
+
+  function reduce(p,v,i){
+    if (i === 0) p = {}
+    p[v[by]] = v
+    return p
+  }
+}
+},{}]},{},[1]);

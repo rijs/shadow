@@ -13,7 +13,7 @@ export default function shadow(ripple){
       : ( el.shadowRoot = el
         , el.shadowRoot.host = el)
 
-    render(el)
+    return render(el)
   }
 
   return ripple
