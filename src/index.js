@@ -24,7 +24,5 @@ function reflect(el) {
 }
 
 import client from 'utilise/client'
-import log from 'utilise/log'
-import err from 'utilise/err'
-log = log('[ri/shadow]')
-err = err('[ri/shadow]')
+var log = require('utilise/log')('[ri/shadow]')
+  , err = require('utilise/err')('[ri/shadow]')
