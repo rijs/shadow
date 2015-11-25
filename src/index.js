@@ -9,9 +9,10 @@ export default function shadow(ripple){
 
   ripple.render = function(el){
     el.createShadowRoot 
-      ? (!el.shadowRoot && el.createShadowRoot() && reflect(el))
+      ? (!el.shadowRoot && el.createShadowRoot() && reflect(el)
+        , el.shadowRoot.__data__ = el.__data__)
       : ( el.shadowRoot = el
-        , el.shadowRoot.host = el)
+        , el.shadowRoot.host = el)    
 
     return render(el)
   }

@@ -32,7 +32,8 @@ describe('Shadow DOM', function(){
 
     ripple('component-1', component)
     ripple('component-2', component)
-    ripple.draw()
+    ripple.render(el1)
+    ripple.render(el2)
 
     expect(el1.shadowRoot.innerHTML).to.be.eql('foo')
     expect(el1).to.be.equal(el1.shadowRoot.host)
@@ -42,9 +43,23 @@ describe('Shadow DOM', function(){
     var ripple = shadow(components(fn(data(core()))))
 
     ripple('component-2', noop)
-    ripple.draw()
+    ripple.render(el1)
+    ripple.render(el2)
 
     expect(el2.shadowRoot.innerHTML).to.be.eql('fallback')
+  })
+
+  it('should close gap between host data and shadowRoot data', function(){  
+    var ripple = shadow(components(fn(data(core()))))
+
+    ripple('component-2', noop)
+
+    el2.__data__ = { foo: 'bar' }
+    
+    ripple.render(el1)
+    ripple.render(el2)
+
+    expect(el2.shadowRoot.__data__).to.be.eql(el2.__data__)
   })
 
 })
