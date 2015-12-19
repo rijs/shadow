@@ -62,4 +62,30 @@ describe('Shadow DOM', function(){
     expect(el2.shadowRoot.__data__).to.be.eql(el2.__data__)
   })
 
+  it('should retarget utility functions', function(done){  
+    var ripple = shadow(components(fn(data(core()))))
+
+    ripple('component-2', noop)
+
+    el2.__data__ = { foo: 'bar' }
+    el2.state = { bar: 'foo' }
+    
+    ripple.render(el1)
+    ripple.render(el2)
+
+    expect(el2.shadowRoot.__data__).to.be.eql(el2.__data__)
+    expect(el2.shadowRoot.state).to.be.eql(el2.state)
+    expect(el2.shadowRoot.on).to.be.eql(el2.on)
+    expect(el2.shadowRoot.once).to.be.eql(el2.once)
+    expect(el2.shadowRoot.emit).to.be.eql(el2.emit)
+
+    el2.on('foo', function(d){
+      expect(d).to.be.eql('bar')
+      done()
+    })
+
+    el2.shadowRoot.emit('foo', 'bar')
+  })
+
+
 })

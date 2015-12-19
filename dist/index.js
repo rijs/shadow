@@ -22,7 +22,7 @@ function shadow(ripple) {
   var render = ripple.render;
 
   ripple.render = function (el) {
-    el.createShadowRoot ? (!el.shadowRoot && el.createShadowRoot() && reflect(el), el.shadowRoot.__data__ = el.__data__) : (el.shadowRoot = el, el.shadowRoot.host = el);
+    el.createShadowRoot ? (!el.shadowRoot && el.createShadowRoot() && reflect(el), retarget(el)) : (el.shadowRoot = el, el.shadowRoot.host = el);
 
     return render(el);
   };
@@ -32,6 +32,12 @@ function shadow(ripple) {
 
 function reflect(el) {
   el.shadowRoot.innerHTML = el.innerHTML;
+}
+
+function retarget(el) {
+  keys(el).concat(['on', 'once', 'emit']).map(function (d) {
+    return el.shadowRoot[d] = el[d];
+  });
 }
 
 var log = require('utilise/log')('[ri/shadow]'),

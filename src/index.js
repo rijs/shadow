@@ -10,7 +10,7 @@ export default function shadow(ripple){
   ripple.render = function(el){
     el.createShadowRoot 
       ? (!el.shadowRoot && el.createShadowRoot() && reflect(el)
-        , el.shadowRoot.__data__ = el.__data__)
+        , retarget(el))
       : ( el.shadowRoot = el
         , el.shadowRoot.host = el)    
 
@@ -22,6 +22,12 @@ export default function shadow(ripple){
 
 function reflect(el) {
   el.shadowRoot.innerHTML = el.innerHTML
+}
+
+function retarget(el) {
+  keys(el)
+    .concat(['on', 'once', 'emit'])
+    .map(d => el.shadowRoot[d] = el[d])
 }
 
 import client from 'utilise/client'
