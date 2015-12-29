@@ -75,9 +75,9 @@ describe('Shadow DOM', function(){
 
     expect(el2.shadowRoot.__data__).to.be.eql(el2.__data__)
     expect(el2.shadowRoot.state).to.be.eql(el2.state)
-    expect(el2.shadowRoot.on).to.be.eql(el2.on)
-    expect(el2.shadowRoot.once).to.be.eql(el2.once)
-    expect(el2.shadowRoot.emit).to.be.eql(el2.emit)
+    expect(el2.shadowRoot.on).to.be.a('function')
+    expect(el2.shadowRoot.once).to.be.a('function')
+    expect(el2.shadowRoot.emit).to.be.a('function')
 
     el2.on('foo', function(d){
       expect(d).to.be.eql('bar')
@@ -87,5 +87,32 @@ describe('Shadow DOM', function(){
     el2.shadowRoot.emit('foo', 'bar')
   })
 
+  it('should retarget .classed and .attr', function(){  
+    var ripple = shadow(components(fn(data(core()))))
+
+    ripple('component-2', noop)
+    ripple.render(el2)
+
+    var root = el2.shadowRoot
+
+    expect(root.classList).to.be.eql(el2.classList)
+    expect(root.getAttribute).to.be.a('function')
+    expect(root.setAttribute).to.be.a('function')
+
+    if (el2.classList) {
+      expect(el2.className).to.be.eql('')
+      root.classList.add('foo')
+      expect(el2.className).to.be.eql('foo')
+      root.classList.remove('foo')
+      expect(el2.className).to.be.eql('')
+    }
+
+    expect(el2.getAttribute('foo')).to.be.eql(null)
+    expect(root.getAttribute('foo')).to.be.eql(null)
+    root.setAttribute('foo', 'bar')
+
+    expect(el2.getAttribute('foo')).to.be.eql('bar')
+    expect(root.getAttribute('foo')).to.be.eql('bar')
+  })
 
 })
