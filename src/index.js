@@ -14,7 +14,7 @@ const render = next => el => {
     : ( el.shadowRoot = el
       , el.shadowRoot.host = el)    
 
-  return next(el)
+  return after(next(el))
 }
 
 const reflect = el => el.shadowRoot.innerHTML = el.innerHTML
@@ -22,6 +22,9 @@ const reflect = el => el.shadowRoot.innerHTML = el.innerHTML
 const retarget = el => keys(el)
   .concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute'])
   .map(d => el.shadowRoot[d] = is.fn(el[d]) ? el[d].bind(el) : el[d])
+
+const after = el => keys(el)
+  .map(d => el.shadowRoot[d] = el[d])
 
 const log = require('utilise/log')('[ri/shadow]')
     , err = require('utilise/err')('[ri/shadow]')
