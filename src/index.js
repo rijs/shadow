@@ -30,3 +30,5 @@ const log = require('utilise/log')('[ri/shadow]')
     , err = require('utilise/err')('[ri/shadow]')
 
 import client from 'utilise/client'
+import keys from 'utilise/keys'
+import is from 'utilise/is'

@@ -9,6 +9,14 @@ var _client = require('utilise/client');
 
 var _client2 = _interopRequireDefault(_client);
 
+var _keys = require('utilise/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _is = require('utilise/is');
+
+var _is2 = _interopRequireDefault(_is);
+
 /* istanbul ignore next */
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35,13 +43,13 @@ var reflect = function reflect(el) {
 };
 
 var retarget = function retarget(el) {
-  return keys(el).concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute']).map(function (d) {
-    return el.shadowRoot[d] = is.fn(el[d]) ? el[d].bind(el) : el[d];
+  return (0, _keys2.default)(el).concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute']).map(function (d) {
+    return el.shadowRoot[d] = _is2.default.fn(el[d]) ? el[d].bind(el) : el[d];
   });
 };
 
 var after = function after(el) {
-  return keys(el).map(function (d) {
+  return (0, _keys2.default)(el).map(function (d) {
     return el.shadowRoot[d] = el[d];
   });
 };
