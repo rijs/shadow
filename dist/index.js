@@ -34,7 +34,7 @@ var render = function render(next) {
   return function (el) {
     el.createShadowRoot ? !el.shadowRoot && el.createShadowRoot() && (reflect(el), retarget(el)) : (el.shadowRoot = el, el.shadowRoot.host = el);
 
-    return after(next(el));
+    return next(el);
   };
 };
 
@@ -44,13 +44,9 @@ var reflect = function reflect(el) {
 
 var retarget = function retarget(el) {
   return (0, _keys2.default)(el).concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute']).map(function (d) {
-    return el.shadowRoot[d] = _is2.default.fn(el[d]) ? el[d].bind(el) : el[d];
-  });
-};
-
-var after = function after(el) {
-  return (0, _keys2.default)(el).map(function (d) {
-    return el.shadowRoot[d] = el[d];
+    return _is2.default.fn(el[d]) ? el.shadowRoot[d] = el[d].bind(el) : Object.defineProperty(el.shadowRoot, d, { get: function get(z) {
+        return el[d];
+      } });
   });
 };
 

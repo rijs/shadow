@@ -1,5 +1,7 @@
 var expect = require('chai').expect
+  , once = require('utilise/once')
   , noop = require('utilise/noop')
+  , time = require('utilise/time')
   , components = require('rijs.components').default
   , core = require('rijs.core').default
   , data = require('rijs.data').default
@@ -63,6 +65,8 @@ describe('Shadow DOM', function(){
   })
 
   it('should retarget utility functions', function(done){  
+    once(el2)
+
     var ripple = shadow(components(fn(data(core()))))
 
     ripple('component-2', noop)
@@ -70,11 +74,11 @@ describe('Shadow DOM', function(){
     el2.__data__ = { foo: 'bar' }
     el2.state = { bar: 'foo' }
     
-    ripple.render(el1)
     ripple.render(el2)
 
     expect(el2.shadowRoot.__data__).to.be.eql(el2.__data__)
     expect(el2.shadowRoot.state).to.be.eql(el2.state)
+
     expect(el2.shadowRoot.on).to.be.a('function')
     expect(el2.shadowRoot.once).to.be.a('function')
     expect(el2.shadowRoot.emit).to.be.a('function')
@@ -85,6 +89,21 @@ describe('Shadow DOM', function(){
     })
 
     el2.shadowRoot.emit('foo', 'bar')
+  })
+
+  it('should return correct host values inside component', function(done){  
+    var ripple = shadow(components(fn(data(core()))))
+
+    el2.change = 1
+    ripple('component-2', function(){
+      expect(this.change).to.eql(this.host.change)
+      el2.change++
+    })
+
+    ripple.render(el2)
+    ripple.render(el2)
+
+    time(100, done)
   })
 
   it('should retarget .classed and .attr', function(){  
