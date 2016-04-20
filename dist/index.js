@@ -32,15 +32,14 @@ function shadow(ripple) {
 
 var render = function render(next) {
   return function (el) {
-    el.createShadowRoot ? !el.shadowRoot && el.createShadowRoot() && (reflect(el), retarget(el)) : (el.shadowRoot = el, el.shadowRoot.host = el);
+    el.createShadowRoot ? !el.shadowRoot && el.createShadowRoot() && retarget(reflect(el)) : (el.shadowRoot = el, el.shadowRoot.host = el);
 
     return next(el);
   };
 };
 
 var reflect = function reflect(el) {
-  el.shadowRoot.innerHTML = el.innerHTML;
-  el.innerHTML = '';
+  return el.shadowRoot.innerHTML = el.innerHTML, el.innerHTML = '', el;
 };
 
 var retarget = function retarget(el) {

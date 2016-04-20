@@ -10,17 +10,18 @@ export default function shadow(ripple){
 
 const render = next => el => {
   el.createShadowRoot 
-    ? (!el.shadowRoot && el.createShadowRoot() && (reflect(el), retarget(el)))
+    ? (!el.shadowRoot && el.createShadowRoot() && (retarget(reflect(el))))
     : ( el.shadowRoot = el
       , el.shadowRoot.host = el)    
 
   return next(el)
 }
 
-const reflect = el => {
-  el.shadowRoot.innerHTML = el.innerHTML
-  el.innerHTML = ''
-}
+const reflect = el => (
+  (el.shadowRoot.innerHTML = el.innerHTML)
+, (el.innerHTML = '')
+, (el)
+)
 
 const retarget = el => keys(el)
   .concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute'])
