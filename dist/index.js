@@ -39,7 +39,8 @@ var render = function render(next) {
 };
 
 var reflect = function reflect(el) {
-  return el.shadowRoot.innerHTML = el.innerHTML;
+  el.shadowRoot.innerHTML = el.innerHTML;
+  el.innerHTML = '';
 };
 
 var retarget = function retarget(el) {

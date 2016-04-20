@@ -49,6 +49,7 @@ describe('Shadow DOM', function(){
     ripple.render(el2)
 
     expect(el2.shadowRoot.innerHTML).to.be.eql('fallback')
+    expect(el2.innerHTML).to.be.eql('')
   })
 
   it('should close gap between host data and shadowRoot data', function(){  

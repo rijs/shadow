@@ -17,7 +17,10 @@ const render = next => el => {
   return next(el)
 }
 
-const reflect = el => el.shadowRoot.innerHTML = el.innerHTML
+const reflect = el => {
+  el.shadowRoot.innerHTML = el.innerHTML
+  el.innerHTML = ''
+}
 
 const retarget = el => keys(el)
   .concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute'])
