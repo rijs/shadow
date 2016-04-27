@@ -44,9 +44,14 @@ var reflect = function reflect(el) {
 
 var retarget = function retarget(el) {
   return (0, _keys2.default)(el).concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute']).map(function (d) {
-    return _is2.default.fn(el[d]) ? el.shadowRoot[d] = el[d].bind(el) : Object.defineProperty(el.shadowRoot, d, { get: function get(z) {
+    return _is2.default.fn(el[d]) ? el.shadowRoot[d] = el[d].bind(el) : Object.defineProperty(el.shadowRoot, d, {
+      get: function get(z) {
         return el[d];
-      } });
+      },
+      set: function set(z) {
+        return el[d] = z;
+      }
+    });
   });
 };
 

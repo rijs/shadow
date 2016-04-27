@@ -27,7 +27,11 @@ const retarget = el => keys(el)
   .concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute'])
   .map(d => is.fn(el[d]) 
     ? (el.shadowRoot[d] = el[d].bind(el)) 
-    : Object.defineProperty(el.shadowRoot, d, { get: z => el[d] }))
+    : Object.defineProperty(el.shadowRoot, d, { 
+        get: z => el[d] 
+      , set: z => el[d] = z
+      })
+    )
 
 const log = require('utilise/log')('[ri/shadow]')
     , err = require('utilise/err')('[ri/shadow]')

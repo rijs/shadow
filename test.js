@@ -110,7 +110,7 @@ describe('Shadow DOM', function(){
     time(100, done)
   })
 
-  it('should retarget .classed and .attr', function(){  
+  it('should retarget .classed and .attr', function(){
     var ripple = shadow(components(fn(data(core()))))
 
     ripple('component-2', noop)
@@ -136,6 +136,20 @@ describe('Shadow DOM', function(){
 
     expect(el2.getAttribute('foo')).to.be.eql('bar')
     expect(root.getAttribute('foo')).to.be.eql('bar')
+  })
+
+  it('should make shadow properties setter transparent', function(){  
+    var ripple = shadow(components(fn(data(core()))))
+
+    el2.foo = true
+    ripple('component-2', noop)
+    ripple.render(el2)
+
+    el2.foo = 10
+    expect(el2.shadowRoot.foo).to.eql(10)
+
+    el2.shadowRoot.foo = 20
+    expect(el2.foo).to.eql(20)
   })
 
 })
