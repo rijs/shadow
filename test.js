@@ -87,8 +87,9 @@ describe('Shadow DOM', function(){
     expect(el2.shadowRoot.once).to.be.a('function')
     expect(el2.shadowRoot.emit).to.be.a('function')
 
-    el2.on('foo', function(d){
-      expect(d).to.be.eql('bar')
+    el2.on('foo', function(d, i, el, e){
+      expect(d).to.be.eql({ foo: 'bar', bar: 'foo' })
+      expect(e.detail).to.be.eql('bar')
       done()
     })
 
