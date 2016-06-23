@@ -1,5 +1,5 @@
 // -------------------------------------------
-// API: Mixes Shadow DOM Encapsulation into rendering pipeline
+// Adds Shadow DOM Encapsulation into Rendering Pipeline
 // -------------------------------------------
 export default function shadow(ripple){
   if (!client) return;
