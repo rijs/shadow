@@ -122,6 +122,9 @@ describe('Shadow DOM', function(){
     // expect(root.classList).to.be.eql(el2.classList)
     expect(root.getAttribute).to.be.a('function')
     expect(root.setAttribute).to.be.a('function')
+    expect(root.hasAttribute).to.be.a('function')
+    expect(root.removeAttribute).to.be.a('function')
+    expect(root.closest).to.be.a('function')
 
     if (el2.classList) {
       expect(el2.className).to.be.eql('')

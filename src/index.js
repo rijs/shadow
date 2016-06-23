@@ -24,7 +24,7 @@ const reflect = el => (
 )
 
 const retarget = el => keys(el)
-  .concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute'])
+  .concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute', 'hasAttribute', 'removeAttribute', 'closest'])
   .map(d => is.fn(el[d]) 
     ? (el.shadowRoot[d] = el[d].bind(el)) 
     : Object.defineProperty(el.shadowRoot, d, { 

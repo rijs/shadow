@@ -21,7 +21,7 @@ var _is2 = _interopRequireDefault(_is);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // -------------------------------------------
-// API: Mixes Shadow DOM Encapsulation into rendering pipeline
+// Adds Shadow DOM Encapsulation into Rendering Pipeline
 // -------------------------------------------
 function shadow(ripple) {
   if (!_client2.default) return;
@@ -43,7 +43,7 @@ var reflect = function reflect(el) {
 };
 
 var retarget = function retarget(el) {
-  return (0, _keys2.default)(el).concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute']).map(function (d) {
+  return (0, _keys2.default)(el).concat(['on', 'once', 'emit', 'classList', 'getAttribute', 'setAttribute', 'hasAttribute', 'removeAttribute', 'closest']).map(function (d) {
     return _is2.default.fn(el[d]) ? el.shadowRoot[d] = el[d].bind(el) : Object.defineProperty(el.shadowRoot, d, {
       get: function get(z) {
         return el[d];
